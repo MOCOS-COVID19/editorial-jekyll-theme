@@ -12,7 +12,7 @@ title: Main Page
     <div class="content">
       <header>
         <h1>{{ forecast.title }} </h1>
-        <p>najnowsza prognoza</p>
+        <p>current forecast</p>
       </header>
       <p>{{ forecast.teaser }}</p>
       <ul class="actions">
