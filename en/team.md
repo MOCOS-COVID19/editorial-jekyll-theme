@@ -1,6 +1,6 @@
 ---
 layout: page
-lang: pl
+lang: en
 title: The MOCOS Team
 ---
 <p>The MOCOS Group (MOdelling COronavirus Spread) is an international, interdisciplinary team of scientists involved in modelling the COVID-19 epidemic.</p>
