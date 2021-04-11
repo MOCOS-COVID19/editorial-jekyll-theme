@@ -33,6 +33,10 @@
   <meta name="twitter:image" content="{{ page.image_teaser | absolute_url }}">
   <meta property="og:image"  content="{{ page.image_teaser | absolute_url }}">
   {% endif %}
+
+  {% if page.enable_plotly %}
+  <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+  {% endif %}
 </head>
 
 

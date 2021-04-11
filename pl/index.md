@@ -2,6 +2,7 @@
 layout: default
 lang: pl
 title: Strona Główna
+enable_plotly: true
 ---
 
 {% assign forecasts = site.prognosis_pl | reverse %}
