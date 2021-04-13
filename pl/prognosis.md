@@ -18,7 +18,7 @@ title: null
 </div>
 <span class="image object">
       {% if forecast.html_chart %}
-      <iframe src="{{ forecast.html_chart }}" alt="" style="width: 100%; height:100%;"/>
+      <iframe src="{{ forecast.html_chart }}" alt="" style="width: 100%; height:100%;"></iframe>
       {% else %}
       <img src="{{ forecast.image_teaser }}" alt="" />
       {% endif %}
