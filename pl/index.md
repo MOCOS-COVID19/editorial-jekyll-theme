@@ -21,7 +21,11 @@ enable_plotly: true
       </ul>
     </div>
     <span class="image object">
+      {% if forecast.html_chart %}
+      <iframe src="{{ forecast.html_chart }}" alt="" />
+      {% else %}
       <img src="{{ forecast.image_teaser }}" alt="" />
+      {% endif %}
     </span>
   </section>
 
