@@ -16,11 +16,15 @@ title: Main Page
       </header>
       <p>{{ forecast.teaser }}</p>
       <ul class="actions">
-        <li><a href="{{ forecast | absolute_url }}" class="button big">More</a></li>
+        <li><a href="{{ forecast | absolute_url }}" class="button big">Więcej</a></li>
       </ul>
     </div>
     <span class="image object">
+      {% if forecast.html_chart %}
+      <iframe src="{{ forecast.html_chart }}" alt="" style="width: 100%; height:100%;"></iframe>
+      {% else %}
       <img src="{{ forecast.image_teaser }}" alt="" />
+      {% endif %}
     </span>
   </section>
 
