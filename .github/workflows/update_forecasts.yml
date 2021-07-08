@@ -1,0 +1,67 @@
+# This is a basic workflow to help you get started with Actions
+
+name: update_forecasts
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  schedule:
+    - cron: "59 13,23 * * *"
+  
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+      - name: Setup done
+        run: |
+          echo "Setup Python step done"
+
+      - name: Install requirenments
+        run: |
+          pip3 install -r requirements.txt
+          echo "installed requirements"
+        
+      # Runs a single command using the runners shell
+      - name: Generate graph
+        run: |
+          python3 generate_graph.py
+          echo "generated graph"
+          
+      - name: Commit files
+        env:
+          AUTH: ${{ secrets.GITHUBTOKEN }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action - update_forecasts"
+          git remote rm origin
+          git remote add origin https://${AUTH}@github.com/MOCOS-COVID19/mocos-covid19.github.io.git > /dev/null 2>&1
+          git pull origin master
+          git add --all
+          git commit -m "Refresh the forecast - daily"
+          echo "commited changes"
+        
+      - name: Push changes
+        run: |
+          git push --quiet --set-upstream origin HEAD:master
+          echo "pushed to github"
