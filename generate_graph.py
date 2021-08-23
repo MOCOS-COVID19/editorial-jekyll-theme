@@ -123,6 +123,10 @@ def cli1():
 def cli2():
     pass
 
+@click.group()
+def cli3():
+    pass
+
 
 @cli1.command('main')
 @click.argument("input_csv", type=str, default='scenario.csv')
@@ -205,6 +209,17 @@ def batch(cloned_repo_path):
             fun(os.path.join(forecasts_dir, csv_file),
                           cloned_repo_path)
 
-cli = click.CommandCollection(sources=[cli1, cli2])
+@cli3.command()
+def mz():
+    df1 = pd.read_csv('https://raw.githubusercontent.com/KITmetricslab/covid19-forecast-hub-de/master/data-truth/MZ/truth_MZ-Incident%20Cases_Poland.csv')
+
+    df1 = df1.query('location == "PL"').sort_values('date')#.set_index('date')
+    print(df1.tail(n=14))
+    df2 = pd.read_csv('https://raw.githubusercontent.com/KITmetricslab/covid19-forecast-hub-de/master/data-truth/MZ/truth_MZ-Incident%20Deaths_Poland.csv')
+
+    df2 = df2.query('location == "PL"').sort_values('date')#.set_index('date')
+    print(df2.tail(n=14))
+
+cli = click.CommandCollection(sources=[cli1, cli2, cli3])
 if __name__ == '__main__':
     cli()
