@@ -4,12 +4,6 @@ name: update_forecasts
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   schedule:
@@ -41,11 +35,15 @@ jobs:
         run: |
           pip3 install -r requirements.txt
           echo "installed requirements"
+          sudo locale-gen pl_PL
+          sudo locale-gen en_GB
+          sudo locale-gen de_DE
+          sudo dpkg-reconfigure locales
         
       # Runs a single command using the runners shell
       - name: Generate graph
         run: |
-          python3 generate_graph.py
+          python3 generate_graph.py mz
           echo "generated graph"
           
       - name: Commit files
