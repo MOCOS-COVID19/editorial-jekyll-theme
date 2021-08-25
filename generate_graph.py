@@ -45,10 +45,28 @@ MOVING_AVG_STR2 = {
     "de_DE": "7 Tage gleitender Durchschnitt<br>der erkannten Fälle"
 }
 
+MOVING_AVG_D_STR = {
+    "pl_PL": "7-dn. średnia przypadków śmiertelnych",
+    "en_GB": "7 day moving average of death cases",
+    "de_DE": "7 Tage gleitender Durchschnitt der Todesfälle"
+}
+
+MOVING_AVG_D_STR2 = {
+    "pl_PL": "7-dn. średnia<br>przypadków śmiertelnych",
+    "en_GB": "7 day moving average<br>of death cases",
+    "de_DE": "7 Tage gleitender Durchschnitt<br>der Todesfälle"
+}
+
 NEW_CASES_STR = {
     "pl_PL": "dzienne wykryte przypadki zachorowań",
     "en_GB": "daily detected cases",
     "de_DE": "täglich erkannte Fälle"
+}
+
+NEW_DEATHS_STR = {
+    "pl_PL": "dzienne przypadki śmiertelne w związku z COVID",
+    "en_GB": "daily deaths related to COVID",
+    "de_DE": "tägliche Todesfälle im Zusammenhang mit COVID"
 }
 
 COLUMNS = ["p2.5", "p25", "mean", "p75", "p97.5"]
@@ -76,6 +94,7 @@ XAXIS_STR = {
 }
 
 YAXIS_STR = MOVING_AVG_STR
+YAXIS_D_STR = MOVING_AVG_D_STR
 
 LAYOUT_TEMPLATE = {
     "xaxis": {
@@ -102,8 +121,18 @@ def prepare_layout(language):
     layout['yaxis']['title'] = YAXIS_STR[language]
     return layout
 
+def prepare_layout_d(language):
+    layout = LAYOUT_TEMPLATE
+    layout['xaxis']['title'] = XAXIS_STR[language]
+    layout['yaxis']['title'] = YAXIS_D_STR[language]
+    return layout
+
 def prepare_title(language):
     title = MOVING_AVG_STR2[language]
+    return title
+
+def prepare_title_d(language):
+    title = MOVING_AVG_D_STR2[language]
     return title
 
 def handle_dates(x, format='%d/%m/%y'):
@@ -133,67 +162,140 @@ def cli3():
 @click.argument("cloned_repo_path", required=True, type=str, default='/mnt/e/Projects/MOCOS/mocos-covid19.github.io')
 def main_function(input_csv, cloned_repo_path):
     fun(input_csv, cloned_repo_path)
+
+
+def cases(input_csv, language):
+    traces = []
+    df=pd.read_csv(input_csv)
+    df = df.iloc[:30] # show only next thirty days even if you have more
+    print(df.iloc[:7]['dates'])
+    df['dates']=df['dates'].apply(handle_dates)
+    df['dates1']=df['dates'].apply(apply_str_on_dates)
+    dates_with_14_days_before = sorted(list(set(df['dates'].apply(lambda x: x - pd.Timedelta('14days')).apply(apply_str_on_dates).to_numpy()).union(set(df['dates1'].to_numpy()))))
     
+    # print(df['dates1'])
+    df2 = pd.read_csv('https://raw.githubusercontent.com/KITmetricslab/covid19-forecast-hub-de/master/data-truth/MZ/truth_MZ-Incident%20Cases_Poland.csv')
+    
+    df2=df2.query('location == "PL"').sort_values('date')#.set_index('date')
+    
+    df2['date']=df2['date'].apply(lambda x: pd.to_datetime(x, format="%Y-%m-%d")-pd.Timedelta('1day')).apply(apply_str_on_dates)
+    
+    moving = df2.set_index('date')['value'].rolling(7).mean().reset_index()
+    df2 = df2[df2['date'].isin(dates_with_14_days_before)]
+    moving = moving[moving['date'].isin(dates_with_14_days_before)]
+    # print(df2['date'])
+    # exit()
+    traces.append(go.Scatter(
+            x=df2['date'],
+            y=df2['value'].values.tolist(),
+            name=NEW_CASES_STR[language],
+            fill="none",
+            mode="markers",
+            marker_color="black"
+        ))
+
+    traces.append(go.Scatter(
+            x=moving['date'],
+            y=moving['value'].values.tolist(),
+            name=MOVING_AVG_STR[language],
+            fill="none",
+            mode="lines",
+            marker_color="black"
+        ))
+    for column in COLUMNS:
+    
+        traces.append(go.Scatter(
+            x=df['dates1'],
+            y=df[column].values.tolist(),
+            name=CSV_NAME_MAP[language][column],
+            fill="none" if column =="p2.5" else "tonexty",
+            mode="lines",
+            line_color=LINE_COLORS[column],
+            fillcolor=FILL_COLORS[column]
+        ))
+    fig = go.Figure(data=traces, layout=prepare_layout(language))
+    fig.update_xaxes(tickformat='%d-%b-%y')
+    
+    date=df.iloc[0]['dates'].strftime("%Y%m%d")
+    return fig, date
+
+
+def deaths(input_csv, language):
+    traces = []
+    df=pd.read_csv(input_csv)
+    df = df.iloc[:30] # show only next thirty days even if you have more
+    print(df.iloc[:7]['dates'])
+    df['dates']=df['dates'].apply(handle_dates)
+    df['dates1']=df['dates'].apply(apply_str_on_dates)
+    dates_with_14_days_before = sorted(list(set(df['dates'].apply(lambda x: x - pd.Timedelta('14days')).apply(apply_str_on_dates).to_numpy()).union(set(df['dates1'].to_numpy()))))
+    
+    # print(df['dates1'])
+    df2 = pd.read_csv('https://raw.githubusercontent.com/KITmetricslab/covid19-forecast-hub-de/master/data-truth/MZ/truth_MZ-Incident%20Deaths_Poland.csv')
+    
+    df2=df2.query('location == "PL"').sort_values('date')#.set_index('date')
+    
+    df2['date']=df2['date'].apply(lambda x: pd.to_datetime(x, format="%Y-%m-%d")-pd.Timedelta('1day')).apply(apply_str_on_dates)
+    
+    moving = df2.set_index('date')['value'].rolling(7).mean().reset_index()
+    df2 = df2[df2['date'].isin(dates_with_14_days_before)]
+    moving = moving[moving['date'].isin(dates_with_14_days_before)]
+    # print(df2['date'])
+    # exit()
+    traces.append(go.Scatter(
+            x=df2['date'],
+            y=df2['value'].values.tolist(),
+            name=NEW_DEATHS_STR[language],
+            fill="none",
+            mode="markers",
+            marker_color="black"
+        ))
+
+    traces.append(go.Scatter(
+            x=moving['date'],
+            y=moving['value'].values.tolist(),
+            name=MOVING_AVG_D_STR[language],
+            fill="none",
+            mode="lines",
+            marker_color="black"
+        ))
+    for column in COLUMNS:
+    
+        traces.append(go.Scatter(
+            x=df['dates1'],
+            y=df[column].values.tolist(),
+            name=CSV_NAME_MAP[language][column],
+            fill="none" if column =="p2.5" else "tonexty",
+            mode="lines",
+            line_color=LINE_COLORS[column],
+            fillcolor=FILL_COLORS[column]
+        ))
+    fig = go.Figure(data=traces, layout=prepare_layout_d(language))
+    fig.update_xaxes(tickformat='%d-%b-%y')
+
+    date=df.iloc[0]['dates'].strftime("%Y%m%d")
+    return fig, date
+
+
+
 def fun(input_csv, cloned_repo_path):
     for language in ['pl_PL', 'en_GB', 'de_DE']:
         locale.setlocale(locale.LC_ALL, language)
-        traces = []
-        df=pd.read_csv(input_csv)
-        df = df.iloc[:30] # show only next thirty days even if you have more
-        print(df.iloc[:7]['dates'])
-        df['dates']=df['dates'].apply(handle_dates)
-        df['dates1']=df['dates'].apply(apply_str_on_dates)
-        dates_with_14_days_before = sorted(list(set(df['dates'].apply(lambda x: x - pd.Timedelta('14days')).apply(apply_str_on_dates).to_numpy()).union(set(df['dates1'].to_numpy()))))
-        
-        # print(df['dates1'])
-        df2 = pd.read_csv('https://raw.githubusercontent.com/KITmetricslab/covid19-forecast-hub-de/master/data-truth/MZ/truth_MZ-Incident%20Cases_Poland.csv')
-        
-        df2=df2.query('location == "PL"').sort_values('date')#.set_index('date')
-        
-        df2['date']=df2['date'].apply(lambda x: pd.to_datetime(x, format="%Y-%m-%d")-pd.Timedelta('1day')).apply(apply_str_on_dates)
-        
-        moving = df2.set_index('date')['value'].rolling(7).mean().reset_index()
-        df2 = df2[df2['date'].isin(dates_with_14_days_before)]
-        moving = moving[moving['date'].isin(dates_with_14_days_before)]
-        # print(df2['date'])
-        # exit()
-        traces.append(go.Scatter(
-                x=df2['date'],
-                y=df2['value'].values.tolist(),
-                name=NEW_CASES_STR[language],
-                fill="none",
-                mode="markers",
-                marker_color="black"
-            ))
+        scenario_type = None
+        title_text = None
+        if input_csv.split('/')[-1].startswith('scenario'):
+            fig, date = cases(input_csv, language)
+            scenario_type = '' # default
+            title_text = prepare_title(language)
+        else:
+            fig, date = deaths(input_csv, language)
+            scenario_type = '_deaths'
+            title_text = prepare_title_d(language)
 
-        traces.append(go.Scatter(
-                x=moving['date'],
-                y=moving['value'].values.tolist(),
-                name=MOVING_AVG_STR[language],
-                fill="none",
-                mode="lines",
-                marker_color="black"
-            ))
-        for column in COLUMNS:
-        
-            traces.append(go.Scatter(
-                x=df['dates1'],
-                y=df[column].values.tolist(),
-                name=CSV_NAME_MAP[language][column],
-                fill="none" if column =="p2.5" else "tonexty",
-                mode="lines",
-                line_color=LINE_COLORS[column],
-                fillcolor=FILL_COLORS[column]
-            ))
-        fig = go.Figure(data=traces, layout=prepare_layout(language))
-        fig.update_xaxes(tickformat='%d-%b-%y')
-
-        date=df.iloc[0]['dates'].strftime("%Y%m%d")
         savedir = Path(f"{cloned_repo_path}/assets/images/reports/{date}/")
         savedir.mkdir(exist_ok=True)
-        fig.write_html(str(savedir/f"prognoza_{language[:2]}.html"))
-        fig.update_layout(yaxis=go.layout.YAxis(title=go.layout.yaxis.Title(text=prepare_title(language))), xaxis=go.layout.XAxis(title=go.layout.xaxis.Title(text='')))
-        fig.write_image(str(savedir/f"prognoza_{language[:2]}.png"))
+        fig.write_html(str(savedir/f"prognoza_{language[:2]}{scenario_type}.html"))
+        fig.update_layout(yaxis=go.layout.YAxis(title=go.layout.yaxis.Title(text=title_text)), xaxis=go.layout.XAxis(title=go.layout.xaxis.Title(text='')))
+        fig.write_image(str(savedir/f"prognoza_{language[:2]}{scenario_type}.png"))
 
         click.echo(f"Written chart files to {savedir}")
     print('END')
