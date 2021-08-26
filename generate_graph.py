@@ -316,10 +316,12 @@ def mz():
     df1 = pd.read_csv('https://raw.githubusercontent.com/KITmetricslab/covid19-forecast-hub-de/master/data-truth/MZ/truth_MZ-Incident%20Cases_Poland.csv')
 
     df1 = df1.query('location == "PL"').sort_values('date')#.set_index('date')
+    df1['date']=df1['date'].apply(lambda x: pd.to_datetime(x, format="%Y-%m-%d")-pd.Timedelta('1day')).apply(apply_str_on_dates)
     print(df1.tail(n=14))
     df2 = pd.read_csv('https://raw.githubusercontent.com/KITmetricslab/covid19-forecast-hub-de/master/data-truth/MZ/truth_MZ-Incident%20Deaths_Poland.csv')
 
     df2 = df2.query('location == "PL"').sort_values('date')#.set_index('date')
+    df2['date']=df2['date'].apply(lambda x: pd.to_datetime(x, format="%Y-%m-%d")-pd.Timedelta('1day')).apply(apply_str_on_dates)
     print(df2.tail(n=14))
 
 cli = click.CommandCollection(sources=[cli1, cli2, cli3])
