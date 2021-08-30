@@ -43,7 +43,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: Generate graph
         run: |
-          python3 generate_graph.py mz
+          python3 generate_graph.py batch
           echo "generated graph"
           
       - name: Commit files
