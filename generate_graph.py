@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import click
+import datetime
 import locale
 import numpy as np
 import os
@@ -93,6 +94,13 @@ XAXIS_STR = {
 "de_DE": "Datum"
 }
 
+PROGNOSIS_DIRS = {
+    "pl_PL": "_prognosis_pl",
+    "en_GB": "_prognosis_en",
+    "de_DE": "_prognosis_de"
+}
+
+PROGNOSIS_TEMPLATES_DIR = '_prognosis_templates'
 YAXIS_STR = MOVING_AVG_STR
 YAXIS_D_STR = MOVING_AVG_D_STR
 
@@ -154,6 +162,10 @@ def cli2():
 
 @click.group()
 def cli3():
+    pass
+
+@click.group()
+def cli4():
     pass
 
 
@@ -278,6 +290,7 @@ def deaths(input_csv, language):
 
 
 def fun(input_csv, cloned_repo_path):
+    date = None
     for language in ['pl_PL', 'en_GB', 'de_DE']:
         locale.setlocale(locale.LC_ALL, language)
         scenario_type = None
@@ -298,6 +311,7 @@ def fun(input_csv, cloned_repo_path):
         fig.write_image(str(savedir/f"prognoza_{language[:2]}{scenario_type}.png"))
 
         click.echo(f"Written chart files to {savedir}")
+    add_prognosis_fun(date=date, overwrite=False)
     print('END')
 
 @cli2.command()
@@ -326,6 +340,41 @@ def mz():
     df2['7day'] = df2['value'].rolling(7).sum()
     print(df2.tail(n=14))
 
-cli = click.CommandCollection(sources=[cli1, cli2, cli3])
+PROGNOSIS_TEMPLATE_KEYWORDS_TO_FORMAT = {
+'%datedotreversed%': '%d.%m.%Y',
+'%date%': '%Y%m%d',
+'%datedot%': '%Y.%m.%d'
+}
+
+@cli4.command()
+@click.argument('date', required=True, type=str)
+@click.argument('overwrite', type=bool, default=False)
+def add_prognosis(date, overwrite):
+    add_prognosis_fun(date, overwrite)
+
+def add_prognosis_fun(date, overwrite):
+    format = '%Y%m%d'
+    try:
+      real_date = datetime.datetime.strptime(date, format)
+      print("This is the correct date string format.")
+    except ValueError:
+      print(f"Input date: {date} is the incorrect date string format. It should be {format}")
+
+    for lang, dir in PROGNOSIS_DIRS.items():
+        prognosis_filename = os.path.join(dir, f'{date}.md')
+        if os.path.exists(prognosis_filename):
+            if not overwrite:
+                print(f'overwrite set to false, omitting this one (lang={lang}, date={date})...')
+                continue
+        content = []
+        with open(os.path.join(PROGNOSIS_TEMPLATES_DIR, f'{lang}.md'), 'r') as f:
+            content = f.read()
+        for keyword, format in PROGNOSIS_TEMPLATE_KEYWORDS_TO_FORMAT.items():
+            content = content.replace(keyword, real_date.strftime(format))
+        with open(prognosis_filename, 'w') as f:
+            f.write(content)
+
+
+cli = click.CommandCollection(sources=[cli1, cli2, cli3, cli4])
 if __name__ == '__main__':
     cli()
