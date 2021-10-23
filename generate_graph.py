@@ -189,10 +189,18 @@ def cases(input_csv, language):
     df2 = pd.read_csv('https://raw.githubusercontent.com/KITmetricslab/covid19-forecast-hub-de/master/data-truth/MZ/truth_MZ-Incident%20Cases_Poland.csv')
     
     df2=df2.query('location == "PL"').sort_values('date')#.set_index('date')
-    
+    df2['datetime'] = df2['date'].apply(lambda x: pd.to_datetime(x, format="%Y-%m-%d"))
+    all_dates = set(pd.date_range(start=df2['datetime'].min(), end=df2['datetime'].max()))
+    existing_dates = set(df2['datetime'])
+    missing_dates = all_dates - existing_dates
+    if len(missing_dates) > 0:
+        for missing_date in missing_dates:
+            df2 = df2.append({'date': missing_date.strftime(format='%Y-%m-%d'), 'value': np.nan}, ignore_index=True)
+    df2 = df2.sort_values('date')
+
     df2['date']=df2['date'].apply(lambda x: pd.to_datetime(x, format="%Y-%m-%d")-pd.Timedelta('1day')).apply(apply_str_on_dates)
     
-    moving = df2.set_index('date')['value'].rolling(7).mean().reset_index()
+    moving = df2.set_index('date')['value'].rolling(7, min_periods=1).mean().reset_index()
     df2 = df2[df2['date'].isin(dates_with_14_days_before)]
     moving = moving[moving['date'].isin(dates_with_14_days_before)]
     # print(df2['date'])
@@ -245,10 +253,18 @@ def deaths(input_csv, language):
     df2 = pd.read_csv('https://raw.githubusercontent.com/KITmetricslab/covid19-forecast-hub-de/master/data-truth/MZ/truth_MZ-Incident%20Deaths_Poland.csv')
     
     df2=df2.query('location == "PL"').sort_values('date')#.set_index('date')
-    
+    df2['datetime'] = df2['date'].apply(lambda x: pd.to_datetime(x, format="%Y-%m-%d"))
+    all_dates = set(pd.date_range(start=df2['datetime'].min(), end=df2['datetime'].max()))
+    existing_dates = set(df2['datetime'])
+    missing_dates = all_dates - existing_dates
+    if len(missing_dates) > 0:
+        for missing_date in missing_dates:
+            df2 = df2.append({'date': missing_date.strftime(format='%Y-%m-%d'), 'value': np.nan}, ignore_index=True)
+    df2 = df2.sort_values('date')
+
     df2['date']=df2['date'].apply(lambda x: pd.to_datetime(x, format="%Y-%m-%d")-pd.Timedelta('1day')).apply(apply_str_on_dates)
     
-    moving = df2.set_index('date')['value'].rolling(7).mean().reset_index()
+    moving = df2.set_index('date')['value'].rolling(7, min_periods=1).mean().reset_index()
     df2 = df2[df2['date'].isin(dates_with_14_days_before)]
     moving = moving[moving['date'].isin(dates_with_14_days_before)]
     # print(df2['date'])
@@ -331,13 +347,13 @@ def mz():
 
     df1 = df1.query('location == "PL"').sort_values('date')#.set_index('date')
     df1['date']=df1['date'].apply(lambda x: pd.to_datetime(x, format="%Y-%m-%d")-pd.Timedelta('1day')).apply(apply_str_on_dates)
-    df1['7day']=df1['value'].rolling(7).sum()
+    df1['7day']=df1['value'].rolling(7, min_periods=1).sum()
     print(df1.tail(n=14))
     df2 = pd.read_csv('https://raw.githubusercontent.com/KITmetricslab/covid19-forecast-hub-de/master/data-truth/MZ/truth_MZ-Incident%20Deaths_Poland.csv')
 
     df2 = df2.query('location == "PL"').sort_values('date')#.set_index('date')
     df2['date']=df2['date'].apply(lambda x: pd.to_datetime(x, format="%Y-%m-%d")-pd.Timedelta('1day')).apply(apply_str_on_dates)
-    df2['7day'] = df2['value'].rolling(7).sum()
+    df2['7day'] = df2['value'].rolling(7, min_periods=1).sum()
     print(df2.tail(n=14))
 
 PROGNOSIS_TEMPLATE_KEYWORDS_TO_FORMAT = {
