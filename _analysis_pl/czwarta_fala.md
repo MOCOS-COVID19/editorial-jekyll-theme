@@ -6,7 +6,7 @@ date: 15.11.2021
 sortable_date: 20211115
 title: Prognoza długoterminowa czwartej fali
 teaser: Czwarta fala rozpoczęła się w lipcu 2021 r., kiedy to epidemia zmieniła się z podkrytycznej w nadkrytyczną. Prognozujemy jej długoterminowy przebieg.
-image_teaser: /assets/images/reports/20201115/czwarta_fala.png
+image_teaser: /assets/images/reports/20211115/czwarta_fala.png
 ---
 
 Czwarta fala rozpoczęła się w lipcu 2021 r., kiedy to epidemia zmieniła się z podkrytycznej w nadkrytyczną. W lipcu 
