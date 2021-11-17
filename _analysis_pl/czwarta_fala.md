@@ -10,8 +10,8 @@ image_teaser: /assets/images/reports/20211115/czwarta_fala.png
 ---
 
 Czwarta fala rozpoczęła się w lipcu 2021 r., kiedy to epidemia zmieniła się z podkrytycznej w nadkrytyczną. W lipcu 
-i sierpniu mieliśmy do czynienia z umiarkowanym wzrostem odzwierciedlonym w szacunkowej wartości R pomiędzy 1,1 a 1,2.  
-Na początku września wzrost przyspieszył, najprawdopodobniej z powodu efektów sezonowych, końca wakacji i powrotem do 
+i sierpniu mieliśmy do czynienia z umiarkowanym wzrostem odzwierciedlonym w szacunkowej wartości R pomiędzy 1,1 a 1,2. Na
+początku września wzrost przyspieszył, najprawdopodobniej z powodu efektów sezonowych, końca wakacji i powrotem do 
 pracy i szkół. Szacowana wartość R wynosiła od 1,3 do 1,4. W październiku zaobserwowaliśmy dodatkowe przyspieszenie 
 (odzwierciedlone w wartościach R powyżej 1,5 - por. ilustracja powyżej przedstawiająca skumulowaną liczbę 
 zdiagnozowanych przypadków w kolejnych tygodniach w skali logarytmicznej), najprawdopodobniej spowodowane otwarciem 
