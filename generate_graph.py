@@ -323,7 +323,7 @@ def fun(input_csv, cloned_repo_path):
                 title_text = prepare_title_d(language)
             elif 'hospitalization' in filename:
                 print('visualizing hospitalized cases is not yet implemented')
-                continue
+                return
 
         savedir = Path(f"{cloned_repo_path}/assets/images/reports/{date}/")
         savedir.mkdir(exist_ok=True)
