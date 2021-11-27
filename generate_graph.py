@@ -311,14 +311,19 @@ def fun(input_csv, cloned_repo_path):
         locale.setlocale(locale.LC_ALL, language)
         scenario_type = None
         title_text = None
-        if input_csv.split('/')[-1].startswith('scenario'):
+        filename = input_csv.split('/')[-1]
+        if filename.startswith('scenario') or 'detections' in filename:
             fig, date = cases(input_csv, language)
             scenario_type = '' # default
             title_text = prepare_title(language)
         else:
-            fig, date = deaths(input_csv, language)
-            scenario_type = '_deaths'
-            title_text = prepare_title_d(language)
+            if 'death' in filename:
+                fig, date = deaths(input_csv, language)
+                scenario_type = '_deaths'
+                title_text = prepare_title_d(language)
+            elif 'hospitalization' in filename:
+                print('visualizing hospitalized cases is not yet implemented')
+                pass
 
         savedir = Path(f"{cloned_repo_path}/assets/images/reports/{date}/")
         savedir.mkdir(exist_ok=True)
