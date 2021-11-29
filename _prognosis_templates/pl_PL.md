@@ -8,6 +8,7 @@ title: Krótkoterminowa prognoza rozwoju pandemii po %datedotreversed%
 teaser: Prezentujemy wyniki krótkoterminowego modelowania rozwoju pandemii.
 html_chart: /assets/images/reports/%date%/prognoza_pl.html
 html_chart_d: /assets/images/reports/%date%/prognoza_pl_deaths.html
+html_chart_h: /assets/images/reports/%date%/prognoza_pl_hospitalizations.html
 image_teaser:  /assets/images/reports/%date%/prognoza_pl.png
 ---
 
@@ -22,5 +23,11 @@ Prezentujemy wyniki krótkoterminowego modelowania rozwoju pandemii.
 <div style="text-align: center" class="row 80%">
     <span class="image fit">
         <iframe src="{{ page.html_chart_d }}" alt="" style="width: 100%; height:54em;"></iframe>
+    </span>
+</div>
+
+<div style="text-align: center" class="row 80%">
+    <span class="image fit">
+        <iframe src="{{ page.html_chart_h }}" alt="" style="width: 100%; height:54em;"></iframe>
     </span>
 </div>
