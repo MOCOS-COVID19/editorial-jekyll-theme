@@ -412,8 +412,8 @@ def fun(input_csv, cloned_repo_path):
 
         savedir = Path(f"{cloned_repo_path}/assets/images/reports/{date}/")
         savedir.mkdir(exist_ok=True)
-        fig.write_html(str(savedir/f"prognoza_{language[:2]}{scenario_type}.html"))
         fig.update_layout(yaxis=go.layout.YAxis(title=go.layout.yaxis.Title(text=title_text)), xaxis=go.layout.XAxis(title=go.layout.xaxis.Title(text='')))
+        fig.write_html(str(savedir/f"prognoza_{language[:2]}{scenario_type}.html"))
         fig.write_image(str(savedir/f"prognoza_{language[:2]}{scenario_type}.png"))
 
         click.echo(f"Written chart files to {savedir}")
