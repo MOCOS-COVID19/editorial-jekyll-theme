@@ -446,6 +446,13 @@ def mz():
     df2['7day'] = df2['value'].rolling(7, min_periods=1).sum()
     print(df2.tail(n=14))
 
+    df3 = pd.read_csv('https://opendata.ecdc.europa.eu/covid19/hospitalicuadmissionrates/csv/data.csv')
+    print(df3.columns)
+    df3 = df3.query('country == "Poland"').sort_values('date')#.set_index('date')
+    df3['date']=df3['date'].apply(lambda x: pd.to_datetime(x, format="%Y-%m-%d")-pd.Timedelta('1day')).apply(apply_str_on_dates)
+    df3['7day'] = df3['value'].rolling(7, min_periods=1).sum()
+    print(df3.tail(n=14))
+
 PROGNOSIS_TEMPLATE_KEYWORDS_TO_FORMAT = {
 '%datedotreversed%': '%d.%m.%Y',
 '%date%': '%Y%m%d',
