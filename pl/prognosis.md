@@ -25,9 +25,7 @@ title: null
       </span>
 </section>
 
-<div class="row">
-    {{ forecast.content }}
-</div>
+{{ forecast.content }}
 
 {% endfor %}
 
