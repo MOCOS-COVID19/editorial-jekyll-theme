@@ -396,7 +396,7 @@ def fun(input_csv, cloned_repo_path):
         scenario_type = None
         title_text = None
         filename = input_csv.split('/')[-1]
-        if filename.startswith('scenario') or 'detections' in filename:
+        if (filename.startswith('scenario') or 'detections' in filename) and 'death' not in filename and 'hospitalization' not in filename:
             fig, date = cases(input_csv, language)
             scenario_type = '' # default
             title_text = prepare_title(language)
