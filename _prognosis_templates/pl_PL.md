@@ -5,11 +5,13 @@ category: prognoza
 date: %datedotreversed%
 sortable_date: %date%
 title: Krótkoterminowa prognoza rozwoju pandemii po %datedotreversed% 
-teaser: Prezentujemy wyniki krótkoterminowego modelowania rozwoju pandemii.
+teaser: Prezentujemy wyniki krótkoterminowego modelowania rozwoju pandemii po %datedotreversed%.
+description: Prezentujemy wyniki krótkoterminowego modelowania rozwoju pandemii po %datedotreversed%.
 html_chart: /assets/images/reports/%date%/prognoza_pl.html
 html_chart_d: /assets/images/reports/%date%/prognoza_pl_deaths.html
 html_chart_h: /assets/images/reports/%date%/prognoza_pl_hospitalizations.html
 image_teaser:  /assets/images/reports/%date%/prognoza_pl.png
+image:  /assets/images/reports/%date%/prognoza_pl.png
 ---
 
 Prezentujemy wyniki krótkoterminowego modelowania rozwoju pandemii.
