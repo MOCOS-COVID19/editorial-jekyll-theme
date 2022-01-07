@@ -2,7 +2,7 @@
 title: MOCOS
 subtitle: MOdelling Coronavirus Spread
 email: mocos.international@gmail.com
-description: A FREE AND FULLY RESPONSIVE SITE TEMPLATE
+description: Grupa MOCOS (MOdelling COronavirus Spread) to międzynarodowy interdyscyplinarny zespół naukowców zajmujący się modelowaniem epidemii COVID-19.
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://mocos.pl"
 author: MOCOS International
@@ -15,7 +15,7 @@ phone: +48 71 320 31-20
 
 # Social settings
 500px_url:
-facebook_url:
+facebook_url: https://facebook.com/mocoscovid
 github_url: https://github.com/MOCOS-COVID19/
 gitlab_url:
 googleplus_url:
@@ -23,7 +23,7 @@ instagram_url:
 linkedin_url:
 pinterest_url:
 slack_url:
-twitter_url:
+twitter_url: https://twitter.com/mocos_covid
 
 # Build settings
 timezone: Europe/Warsaw
@@ -60,3 +60,6 @@ collections:
     sort_by: date
     output: true
     permalink: /de/prognosis/:name
+
+plugins:
+  - jekyll-feed
