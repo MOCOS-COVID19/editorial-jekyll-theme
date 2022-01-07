@@ -63,3 +63,12 @@ collections:
 
 plugins:
   - jekyll-feed
+
+feed:
+  collections:
+    prognosis_pl:
+      path: "/prognosis_pl.atom"
+    analysis_pl:
+      path: "/analysis_pl.atom"
+    publications:
+      path: "/publications.atom"
