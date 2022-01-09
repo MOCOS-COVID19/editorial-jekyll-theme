@@ -76,6 +76,12 @@ NEW_CASES_STR = {
     "de_DE": "täglich erkannte Fälle"
 }
 
+TOO_HIGH_STR = {
+    "pl_PL": "liczba dziennie zdiagnozowanych osób może być jeszcze wyższa",
+    "en_GB": "daily detected cases might be even larger",
+    "de_DE": "Anzahl der täglich entdeckten Fälle könnte noch größer sein"
+}
+
 NEW_DEATHS_STR = {
     "pl_PL": "dzienne przypadki śmiertelne w związku z COVID",
     "en_GB": "daily deaths related to COVID",
@@ -255,10 +261,21 @@ def cases(input_csv, language):
             line_color=LINE_COLORS[column],
             fillcolor=FILL_COLORS[column]
         ))
+    date=df.iloc[0]['dates'].strftime("%Y%m%d")
+    if date == '20220103':
+        # exception!
+        df = df[df["p97.5"] >= 149000]
+        traces.append(go.Scatter(
+            x=df['dates1'],
+            y=[150000] * len(df['dates1']),
+            name=TOO_HIGH_STR[language],
+            mode='lines',
+            line={'dash': 'dot', 'width': 10},
+            line_color='red'))
     fig = go.Figure(data=traces, layout=prepare_layout(language))
     fig.update_xaxes(tickformat='%d-%b-%y')
     
-    date=df.iloc[0]['dates'].strftime("%Y%m%d")
+    
     return fig, date
 
 
@@ -413,8 +430,14 @@ def fun(input_csv, cloned_repo_path):
         savedir = Path(f"{cloned_repo_path}/assets/images/reports/{date}/")
         savedir.mkdir(exist_ok=True)
         fig.update_layout(yaxis=go.layout.YAxis(title=go.layout.yaxis.Title(text=title_text)), xaxis=go.layout.XAxis(title=go.layout.xaxis.Title(text='')))
-        fig.write_html(str(savedir/f"prognoza_{language[:2]}{scenario_type}.html"))
-        fig.write_image(str(savedir/f"prognoza_{language[:2]}{scenario_type}.png"))
+        if date == '20220103' and scenario_type == '':
+            scenario = filename[35:36]
+            
+            fig.write_html(str(savedir/f"prognoza_{language[:2]}{scenario_type}_{scenario}.html"))
+            fig.write_image(str(savedir/f"prognoza_{language[:2]}{scenario_type}_{scenario}.png"))
+        else:
+            fig.write_html(str(savedir/f"prognoza_{language[:2]}{scenario_type}.html"))
+            fig.write_image(str(savedir/f"prognoza_{language[:2]}{scenario_type}.png"))
 
         click.echo(f"Written chart files to {savedir}")
     add_prognosis_fun(date=date, overwrite=False)
@@ -466,6 +489,9 @@ def add_prognosis(date, overwrite):
     add_prognosis_fun(date, overwrite)
 
 def add_prognosis_fun(date, overwrite):
+    if date == '20220103':
+        print(f'special date detected {date}, not using template')
+        return False
     format = '%Y%m%d'
     try:
       real_date = datetime.datetime.strptime(date, format)
