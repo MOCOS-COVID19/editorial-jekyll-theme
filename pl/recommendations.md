@@ -31,7 +31,6 @@ Po trzecie, <strong>musimy zyskać na czasie, aby więcej osób, w tym dzieci, m
 
 <strong>Europejska odpowiedź we wczesnej fazie pandemii była często fragmentaryczna i opóźniona. Nie możemy ponownie popełnić tych samych błędów.</strong>
 
-<small>
 
 Autorzy i podpisani:
 
@@ -66,8 +65,3 @@ Autorzy i podpisani:
 29. Sotirios Tsiodras, National and Kapodistrian University of Athens Medical School, Athens, Greece
 30. Paul Wilmes, University of Luxembourg, Esch-sur-Alzette, Luxembourg
 31. Guntram Wolff, Bruegel, Brussels, Belgium, and Université libre de Bruxelles, Brussels, Belgium.
-    
-</small>
-
- 
-
