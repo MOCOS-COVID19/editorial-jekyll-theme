@@ -31,7 +31,43 @@ Po trzecie, <strong>musimy zyskać na czasie, aby więcej osób, w tym dzieci, m
 
 <strong>Europejska odpowiedź we wczesnej fazie pandemii była często fragmentaryczna i opóźniona. Nie możemy ponownie popełnić tych samych błędów.</strong>
 
-<small>Autorzy i podpisani: André Calero Valdez, RWTH Aachen University, Aachen, Germany; Emil N. Iftekhar, Max Planck Institute for Dynamics and Self-Organisation, Göttingen, Germany; Miquel Oliu-Barton, Paris-Dauphine University, Paris, France, and Bruegel, Brussels, Belgium; Robert Böhm, University of Vienna, Vienna, Austria, and University of Copenhagen, Copenhagen, Denmark; Sarah Cuschieri, Faculty of Medicine and Surgery, University of Malta, Msida, Malta; Thomas Czypionka, Institute for Advanced Studies Vienna, Vienna, Austria, and London School of Economics and Political Science, London, UK; Uga Dumpis, Pauls Stradins University Hospital, University of Latvia, Riga, Latvia; Giulia Giordano, University of Trento, Trento, Italy; Claudia Hanson, Karolinska Institute, Solna, Sweden; Zdenek Hel, University of Alabama at Birmingham, Birmingham, USA; Anna Helova, Sparkman Center for Global Health and Department of Health Policy and Organisation, School of Public Health, University of Alabama at Birmingham, Birmingham, USA; Ilona Kickbusch, Global Health Centre, Graduate Institute of International and Development Studies, Geneva, Switzerland; Peter Klimek, Medical University of Vienna, Vienna, Austria, and Complexity Science Hub Vienna, Vienna, Austria; Lilian Kojan, RWTH Aachen University, Aachen, Germany; Mirjam Kretzschmar, University Medical Center Utrecht, Utrecht, The Netherlands; Tyll Krueger, Wroclaw University of Science and Technology, Wroclaw, Poland; Jenny Krutzinna, University of Bergen, Bergen, Norway; Berit Lange, Helmholtz Center for Infection Research, Braunschweig, Germany; Jeffrey V Lazarus, Barcelona Institute for Global Health (ISGlobal), Hospital Clínic, University of Barcelona, Barcelona, Spain; Helena Machado, Institute for Social Sciences, University of Minho, Braga, Portugal; Martin McKee, London School of Hygiene and Tropical Medicine, London, UK; Kai Nagel, TU Berlin, Berlin, Germany; Matjaž Perc, University of Maribor, Maribor, Slovenia, Department of Medical Research, China Medical University Hospital, China Medical University, Taichung, Taiwan; Elena Petelos, University of Crete, Heraklion, Greece, Maastricht University, Maastricht, The Netherlands; Nedyu Popivanov, Bulgarian Academy of Sciences and Sofia University, Sofia, Bulgaria; Bary Pradelski, CNRS, Grenoble, France, and Oxford-Man Institute, Oxford, UK; Barbara Prainsack, University of Vienna, Vienna, Austria; Kay Schroeder, Zuyd University of Applied Sciences, Heerlen, The Netherlands; Sotirios Tsiodras, National and Kapodistrian University of Athens Medical School, Athens, Greece; Paul Wilmes, University of Luxembourg, Esch-sur-Alzette, Luxembourg; Guntram Wolff, Bruegel, Brussels, Belgium, and Université libre de Bruxelles, Brussels, Belgium.</small>
+<small>
+
+Autorzy i podpisani:
+
+1. André Calero Valdez, RWTH Aachen University, Aachen, Germany
+2. Emil N. Iftekhar, Max Planck Institute for Dynamics and Self-Organisation, Göttingen, Germany 
+3. Miquel Oliu-Barton, Paris-Dauphine University, Paris, France, and Bruegel, Brussels, Belgium
+4. Robert Böhm, University of Vienna, Vienna, Austria, and University of Copenhagen, Copenhagen, Denmark
+5. Sarah Cuschieri, Faculty of Medicine and Surgery, University of Malta, Msida, Malta
+6. Thomas Czypionka, Institute for Advanced Studies Vienna, Vienna, Austria, and London School of Economics and Political Science, London, UK
+7. Uga Dumpis, Pauls Stradins University Hospital, University of Latvia, Riga, Latvia
+8. Giulia Giordano, University of Trento, Trento, Italy
+9. Claudia Hanson, Karolinska Institute, Solna, Sweden
+10. Zdenek Hel, University of Alabama at Birmingham, Birmingham, USA
+11. Anna Helova, Sparkman Center for Global Health and Department of Health Policy and Organisation, School of Public Health, University of Alabama at Birmingham, Birmingham, USA
+12. Ilona Kickbusch, Global Health Centre, Graduate Institute of International and Development Studies, Geneva, Switzerland
+13. Peter Klimek, Medical University of Vienna, Vienna, Austria, and Complexity Science Hub Vienna, Vienna, Austria
+14. Lilian Kojan, RWTH Aachen University, Aachen, Germany
+15. Mirjam Kretzschmar, University Medical Center Utrecht, Utrecht, The Netherlands
+16. Tyll Krueger, Wroclaw University of Science and Technology, Wroclaw, Poland
+17. Jenny Krutzinna, University of Bergen, Bergen, Norway
+18. Berit Lange, Helmholtz Center for Infection Research, Braunschweig, Germany
+19. Jeffrey V Lazarus, Barcelona Institute for Global Health (ISGlobal), Hospital Clínic, University of Barcelona, Barcelona, Spain
+20. Helena Machado, Institute for Social Sciences, University of Minho, Braga, Portugal
+21. Martin McKee, London School of Hygiene and Tropical Medicine, London, UK
+22. Kai Nagel, TU Berlin, Berlin, Germany
+23. Matjaž Perc, University of Maribor, Maribor, Slovenia, Department of Medical Research, China Medical University Hospital, China Medical University, Taichung, Taiwan
+24. Elena Petelos, University of Crete, Heraklion, Greece, Maastricht University, Maastricht, The Netherlands
+25. Nedyu Popivanov, Bulgarian Academy of Sciences and Sofia University, Sofia, Bulgaria
+26. Bary Pradelski, CNRS, Grenoble, France, and Oxford-Man Institute, Oxford, UK
+27. Barbara Prainsack, University of Vienna, Vienna, Austria
+28. Kay Schroeder, Zuyd University of Applied Sciences, Heerlen, The Netherlands
+29. Sotirios Tsiodras, National and Kapodistrian University of Athens Medical School, Athens, Greece
+30. Paul Wilmes, University of Luxembourg, Esch-sur-Alzette, Luxembourg
+31. Guntram Wolff, Bruegel, Brussels, Belgium, and Université libre de Bruxelles, Brussels, Belgium.
+    
+</small>
 
  
 
