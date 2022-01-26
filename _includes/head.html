@@ -29,6 +29,11 @@
   <meta name="twitter:description" content="{{ page.teaser }}">
   <meta property="og:description" content="{{ page.teaser }}">
 
+  {% if page.id != 'index' %}
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{ page | absolute_url }}" />
+  {% endif %}
+
   {% if page.image_teaser %}
   <meta name="twitter:image" content="{{ page.image_teaser | absolute_url }}">
   <meta property="og:image"  content="{{ page.image_teaser | absolute_url }}">
