@@ -10,6 +10,8 @@ from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
 
+HOSPITALIZATION_SCENARIO = '_hospitalizations'
+
 CSV_NAME_MAP = {
     "pl_PL": {
         "p2.5": "dolne 2.5% modelowań",
@@ -408,9 +410,9 @@ def hospitalizations(input_csv, language):
 
 def fun(input_csv, cloned_repo_path):
     date = None
+    scenario_type = None
     for language in ['pl_PL', 'en_GB', 'de_DE']:
         locale.setlocale(locale.LC_ALL, language)
-        scenario_type = None
         title_text = None
         filename = input_csv.split('/')[-1]
         if (filename.startswith('scenario') or 'detections' in filename) and 'death' not in filename and 'hospitalization' not in filename:
@@ -424,23 +426,30 @@ def fun(input_csv, cloned_repo_path):
                 title_text = prepare_title_d(language)
             elif 'hospitalization' in filename:
                 fig, date = hospitalizations(input_csv, language)
-                scenario_type = '_hospitalizations'
+                scenario_type = HOSPITALIZATION_SCENARIO
                 title_text = prepare_title_h(language)
-
-        savedir = Path(f"{cloned_repo_path}/assets/images/reports/{date}/")
-        savedir.mkdir(exist_ok=True)
-        fig.update_layout(yaxis=go.layout.YAxis(title=go.layout.yaxis.Title(text=title_text)), xaxis=go.layout.XAxis(title=go.layout.xaxis.Title(text='')))
-        if date == '20220103' and scenario_type == '':
-            scenario = filename[35:36]
-            
-            fig.write_html(str(savedir/f"prognoza_{language[:2]}{scenario_type}_{scenario}.html"))
-            fig.write_image(str(savedir/f"prognoza_{language[:2]}{scenario_type}_{scenario}.png"))
+        if date not in input_csv:
+            print(f'ignoring the file - inconsistency in dates: {date} vs {input_csv}')
+            return
         else:
-            fig.write_html(str(savedir/f"prognoza_{language[:2]}{scenario_type}.html"))
-            fig.write_image(str(savedir/f"prognoza_{language[:2]}{scenario_type}.png"))
+            
+            savedir = Path(f"{cloned_repo_path}/assets/images/reports/{date}/")
+            savedir.mkdir(exist_ok=True)
+            fig.update_layout(yaxis=go.layout.YAxis(title=go.layout.yaxis.Title(text=title_text)), xaxis=go.layout.XAxis(title=go.layout.xaxis.Title(text='')))
+            if date == '20220103' and scenario_type == '':
+                scenario = filename[35:36]
+                
+                fig.write_html(str(savedir/f"prognoza_{language[:2]}{scenario_type}_{scenario}.html"))
+                fig.write_image(str(savedir/f"prognoza_{language[:2]}{scenario_type}_{scenario}.png"))
+            else:
+                fig.write_html(str(savedir/f"prognoza_{language[:2]}{scenario_type}.html"))
+                fig.write_image(str(savedir/f"prognoza_{language[:2]}{scenario_type}.png"))
 
-        click.echo(f"Written chart files to {savedir}")
-    add_prognosis_fun(date=date, overwrite=False)
+            click.echo(f"Written chart files to {savedir}")
+    if date not in input_csv:
+        print(f'ignoring the file - inconsistency in dates: {date} vs {input_csv}')
+    else:
+        add_prognosis_fun(date=date, overwrite=False, scenario_type=scenario_type)
     print('END')
 
 @cli2.command()
@@ -486,9 +495,9 @@ PROGNOSIS_TEMPLATE_KEYWORDS_TO_FORMAT = {
 @click.argument('date', required=True, type=str)
 @click.argument('overwrite', type=bool, default=False)
 def add_prognosis(date, overwrite):
-    add_prognosis_fun(date, overwrite)
+    add_prognosis_fun(date, overwrite, scenario_type=None)
 
-def add_prognosis_fun(date, overwrite):
+def add_prognosis_fun(date, overwrite, scenario_type=None):
     if date == '20220103':
         print(f'special date detected {date}, not using template')
         return False
@@ -498,15 +507,19 @@ def add_prognosis_fun(date, overwrite):
       print("This is the correct date string format.")
     except ValueError:
       print(f"Input date: {date} is the incorrect date string format. It should be {format}")
-
     for lang, dir in PROGNOSIS_DIRS.items():
+        mode = f'{lang}-no_hosp'
+        if scenario_type == HOSPITALIZATION_SCENARIO:
+            mode = lang
+            overwrite = True
+        
         prognosis_filename = os.path.join(dir, f'{date}.md')
         if os.path.exists(prognosis_filename):
             if not overwrite:
                 print(f'overwrite set to false, omitting this one (lang={lang}, date={date})...')
                 continue
         content = []
-        with open(os.path.join(PROGNOSIS_TEMPLATES_DIR, f'{lang}.md'), 'r') as f:
+        with open(os.path.join(PROGNOSIS_TEMPLATES_DIR, f'{mode}.md'), 'r') as f:
             content = f.read()
         for keyword, format in PROGNOSIS_TEMPLATE_KEYWORDS_TO_FORMAT.items():
             content = content.replace(keyword, real_date.strftime(format))
