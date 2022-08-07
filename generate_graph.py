@@ -3,6 +3,7 @@
 
 import click
 import datetime
+from dateutil.parser import parse
 import locale
 import numpy as np
 import os
@@ -431,8 +432,10 @@ def fun(input_csv, cloned_repo_path):
         if date not in input_csv:
             print(f'ignoring the file - inconsistency in dates: {date} vs {input_csv}')
             return
+        elif (datetime.datetime.now() - parse(date)).days > 50:
+            print(f'date {date} is too old (older than 50 days from now), ignoring')
+            return
         else:
-            
             savedir = Path(f"{cloned_repo_path}/assets/images/reports/{date}/")
             savedir.mkdir(exist_ok=True)
             fig.update_layout(yaxis=go.layout.YAxis(title=go.layout.yaxis.Title(text=title_text)), xaxis=go.layout.XAxis(title=go.layout.xaxis.Title(text='')))
